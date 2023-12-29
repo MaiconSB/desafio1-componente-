@@ -1,0 +1,47 @@
+package com.devsuperior.desafio;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+import com.devsuperior.desafio.entities.Order;
+import com.devsuperior.desafio.service.OrderService;
+
+@SpringBootApplication
+@@ComponentScan("com.devsuperior.desafio")
+public class DemoApplication implements CommandLineRunner{
+	
+	@Autowired
+	private OrderService orderService;
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("ENTRADA (dados do pedido: código. valor básico. porcentagem de desconto)");
+		
+		int cod = sc.nextInt();
+		double basic = sc.nextDouble();
+		double discont = sc.nextDouble();
+		
+		Order order = new Order(cod, basic, discont);
+		
+		OrderService oS = new OrderService();
+		
+		System.out.print("Pedido códico ");
+		System.out.println(cod);
+		System.out.print("Valor total: " + oS.total(order));
+		
+	}
+
+}
